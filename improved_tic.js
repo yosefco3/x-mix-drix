@@ -123,7 +123,16 @@ let gameOver=function(gameWon){
     
     }
 
-
+let checkDraw=function(board){
+    if (board.some((x)=>typeof x==="number")) {
+        return;
+    } else {
+    turn_declare.textContent="It's a DRAW !"
+    cells.forEach(cell => {
+        cell.removeEventListener('click',turnClick,false)
+    });
+    }
+}
 
 let turnClick=function(e){
     // we dont want that a cell we allready press would be 
@@ -146,10 +155,14 @@ let turnClick=function(e){
     // and the combination.
     gameWon=checkWin(board,players[whoseTurn]);
     console.log(gameWon);
-    if (!gameWon) togglePlayers();
+    if (!gameWon) {
+        togglePlayers();
+        checkDraw(board);
+    }
     else {
         gameOver(gameWon);
     }
+    
         
     // console.log(moves);
     // console.log(board);
