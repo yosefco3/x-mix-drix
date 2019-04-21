@@ -1,6 +1,6 @@
 let board ;
 let moves=[];
-
+let gameWon="";
 let players=["x","o"];
 let whoseTurn;
 
@@ -29,6 +29,8 @@ const name2=document.querySelector('#name2');
 const names=document.querySelector('#names');
 const game=document.querySelector('#game');
 const turn_declare=document.querySelector('#turn_declare');
+const reverse_move=document.querySelector('#reverse');
+
 
 
 submit_names.addEventListener('click',(e)=>{
@@ -36,7 +38,7 @@ submit_names.addEventListener('click',(e)=>{
     name_player1=name1.value;
     name_player2=name2.value;
     players=[name_player1,name_player2];
-    console.log(players);
+    
     names.style.display="none";
     game.classList.remove("d-none");
     turn_declare.classList.remove("d-none");
@@ -54,6 +56,7 @@ let togglePlayers=()=>{
 
 // gets the moves array and makes the board array.
 let make_board_from_moves=function (moves){
+    board=[0,1,2,3,4,5,6,7,8];
     moves.forEach(move => {
         board[move.cell]=move.player;
     });
@@ -68,6 +71,8 @@ let make_board_with_img=function(board){
             cell_imges[i].src=x_img;
         } else if (board[i]===players[1]) {
             cell_imges[i].src=y_img;
+        } else {
+            cell_imges[i].src="";
         }
     }
 }
@@ -107,7 +112,7 @@ let checkWin=function(board,player){
 //    if there is a winner , makes green backgrond to the comb ,
 //    removes the event listener from the cells.
 let gameOver=function(gameWon){
-        console.log(gameWon)
+        // console.log(gameWon)
         for (let index of gameWon.comb){
             cells[index].style.backgroundColor='green';
         }
@@ -131,13 +136,15 @@ let turnClick=function(e){
         player: players[whoseTurn],
     }
     moves.push(move);
-// makes the simple array "board" from moves.
+    
+
+    // makes the simple array "board" from moves.
     board=make_board_from_moves(moves);
     // makes the DOM how the board is.
     make_board_with_img(board);
     // chakes if we have winner. returns the player 
     // and the combination.
-    let gameWon=checkWin(board,players[whoseTurn]);
+    gameWon=checkWin(board,players[whoseTurn]);
     console.log(gameWon);
     if (!gameWon) togglePlayers();
     else {
@@ -159,7 +166,7 @@ startGame=function(){
     board=[0,1,2,3,4,5,6,7,8];
     whoseTurn=0;
     turn_declare.textContent="Turn of "+players[0];
-    end_game_message.style.display="none";
+
     
     cells.forEach(cell => {
         cell.style.removeProperty('background-color');
@@ -170,4 +177,19 @@ startGame=function(){
 
 start.addEventListener('click',startGame);
 
+reverse_move.addEventListener('click',(e)=>
+{if (!gameWon){
+    moves.pop();
+    // console.log(moves);
+    board=make_board_from_moves(moves);
+    // console.log(board)
+    make_board_with_img(board);
+    togglePlayers();
+     
+    cells.forEach(cell => {
+        cell.style.removeProperty('background-color');
+        cell.addEventListener('click',turnClick);
+    });
+}
+})
 startGame();
