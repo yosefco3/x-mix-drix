@@ -2,10 +2,10 @@ let board ;
 let moves=[];
 
 let players=["x","o"];
-let whoseTurn=0;
+let whoseTurn;
 
-const x_img="x.png"
-const y_img="o.jpeg"
+const x_img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSGy5SQlF7U7m1rHcZd-ovak8XYCFrSH_1mRqTfCguX477S9Is"
+const y_img="https://www.charbase.com/images/glyph/128309"
 
 const winComb= [
     [0,1,2],
@@ -107,13 +107,14 @@ let checkWin=function(board,player){
 //    if there is a winner , makes green backgrond to the comb ,
 //    removes the event listener from the cells.
 let gameOver=function(gameWon){
-        // console.log(gameWon)
+        console.log(gameWon)
         for (let index of gameWon.comb){
             cells[index].style.backgroundColor='green';
         }
         cells.forEach(cell => {
             cell.removeEventListener('click',turnClick,false)
         });
+        turn_declare.textContent=gameWon.player+" won!"
     
     }
 
@@ -143,8 +144,8 @@ let turnClick=function(e){
         gameOver(gameWon);
     }
         
-    console.log(moves);
-    console.log(board);
+    // console.log(moves);
+    // console.log(board);
     }
 }
 
@@ -156,6 +157,8 @@ startGame=function(){
     });
     moves=[];
     board=[0,1,2,3,4,5,6,7,8];
+    whoseTurn=0;
+    turn_declare.textContent="Turn of "+players[0];
     end_game_message.style.display="none";
     
     cells.forEach(cell => {
