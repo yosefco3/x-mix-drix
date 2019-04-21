@@ -178,7 +178,7 @@ startGame=function(){
 start.addEventListener('click',startGame);
 
 reverse_move.addEventListener('click',(e)=>
-{if (!gameWon){
+{if (!gameWon && moves.length>0) {
     moves.pop();
     // console.log(moves);
     board=make_board_from_moves(moves);
