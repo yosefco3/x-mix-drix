@@ -1,7 +1,7 @@
 let board ;
 let moves=[];
 
-const players=["x","y"];
+let players=["x","o"];
 let whoseTurn=0;
 
 const x_img="x.png"
@@ -23,12 +23,32 @@ const cells=document.querySelectorAll(".cell");
 const cell_imges=document.querySelectorAll(".img_cell");
 let end_game_message=document.querySelector("#endgame");
 const start=document.querySelector('#startgame');
+const submit_names=document.querySelector('#submit_names');
+const name1=document.querySelector('#name1');
+const name2=document.querySelector('#name2');
+const names=document.querySelector('#names');
+const game=document.querySelector('#game');
+const turn_declare=document.querySelector('#turn_declare');
+
+
+submit_names.addEventListener('click',(e)=>{
+    e.preventDefault();
+    name_player1=name1.value;
+    name_player2=name2.value;
+    players=[name_player1,name_player2];
+    console.log(players);
+    names.style.display="none";
+    game.classList.remove("d-none");
+    turn_declare.classList.remove("d-none");
+    turn_declare.textContent="Turn of "+players[0]
+})
 
 // toggles players.
 // 0 is x , 1 is y (circle)
-let togglePlayers=()=>{
+let togglePlayers=()=>{    
     whoseTurn++;
     whoseTurn%=2;
+    turn_declare.textContent="Turn of " +players[whoseTurn];
     
 }
 
@@ -44,9 +64,9 @@ let make_board_from_moves=function (moves){
 // get the board array and make the DOM board
 let make_board_with_img=function(board){
     for (let i=0;i<board.length;i++){
-        if (board[i]==="x"){
+        if (board[i]===players[0]){
             cell_imges[i].src=x_img;
-        } else if (board[i]==="y") {
+        } else if (board[i]===players[1]) {
             cell_imges[i].src=y_img;
         }
     }
@@ -67,7 +87,7 @@ let arrayContainsArray = function(needle, haystack){
 // checks if there is a winner , returns the winner 
 // and the combination
 let checkWin=function(board,player){
-    // makes array "a" of all x or y moves. 
+    // makes array "a" of all player moves. 
     let a=[];
     board.forEach((element,index) => {
         if (element===player) a.push(index);
@@ -123,8 +143,8 @@ let turnClick=function(e){
         gameOver(gameWon);
     }
         
-    // console.log(moves);
-    // console.log(board);
+    console.log(moves);
+    console.log(board);
     }
 }
 
@@ -137,6 +157,7 @@ startGame=function(){
     moves=[];
     board=[0,1,2,3,4,5,6,7,8];
     end_game_message.style.display="none";
+    
     cells.forEach(cell => {
         cell.style.removeProperty('background-color');
         cell.addEventListener('click',turnClick);
@@ -145,4 +166,5 @@ startGame=function(){
 }
 
 start.addEventListener('click',startGame);
+
 startGame();

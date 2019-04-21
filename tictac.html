@@ -20,58 +20,69 @@
         <div class="row">
             <div class="col-12 text-center">
                 <h1 class="display-3">Tic Tac Toe</h1>
-                <div id="names" class="text-center justify-content-center">
+                <div id="names" class="text-center">
                     <form action="" class="">
                         <div class="row">
                             <div class="col-4"></div>
                             <div class="col-md-4 mb-3">
                                 <label for="name1">Player 1 name</label>
-                                <input type="text" class="form-control" id="name1" placeholder="player1"
-                                    required>
+                                <input type="text" class="form-control" id="name1" placeholder="player1" value="x">
                             </div>
                             <div class="col-4"></div>
                         </div>
                         <div class="row">
-                                <div class="col-4"></div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="name2">Player 2 name</label>
-                                    <input type="text" class="form-control" id="name2" placeholder="player2" required>
-                                </div>
-                                <div class="col-4"></div>
+                            <div class="col-4"></div>
+                            <div class="col-md-4 mb-3">
+                                <label for="name2">Player 2 name</label>
+                                <input type="text" class="form-control" id="name2" placeholder="player2" value="o">
                             </div>
-                        
+                            <div class="col-4"></div>
+                        </div>
+                        <button id="submit_names" class="btn btn-success" value="submit">Start Game</button>
                     </form>
                 </div>
             </div>
-            <!--  -->
-            <table>
-                <tr>
-                    <td class="cell" id="0"><img class="img_cell" src="" alt=""></td>
-                    <td class="cell" id="1"><img class="img_cell" src="" alt=""></td>
-                    <td class="cell" id="2"><img class="img_cell" src="" alt=""></td>
-                </tr>
-                <tr>
-                    <td class="cell" id="3"><img class="img_cell" src="" alt=""></td>
-                    <td class="cell" id="4"><img class="img_cell" src="" alt=""></td>
-                    <td class="cell" id="5"><img class="img_cell" src="" alt=""></td>
-                </tr>
-                <tr>
-                    <td class="cell" id="6"><img class="img_cell" src="" alt=""></td>
-                    <td class="cell" id="7"><img class="img_cell" src="" alt=""></td>
-                    <td class="cell" id="8"><img class="img_cell" src="" alt=""></td>
-                </tr>
-            </table>
         </div>
-        <br>
+        <!--  -->
+
         <div class="row">
             <div class="col-12 text-center">
-                <div id="endgame" class="d-none">
-                    <p>hhhhhh</p>
+                <div id="game" class="d-none">
+                    <h1 id="turn_declare" class="d-none">turn of x</h1>
+
+
+                    <table class="my-3">
+                        <tr>
+                            <td class="cell" id="0"><img class="img_cell" src="" alt=""></td>
+                            <td class="cell" id="1"><img class="img_cell" src="" alt=""></td>
+                            <td class="cell" id="2"><img class="img_cell" src="" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="cell" id="3"><img class="img_cell" src="" alt=""></td>
+                            <td class="cell" id="4"><img class="img_cell" src="" alt=""></td>
+                            <td class="cell" id="5"><img class="img_cell" src="" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="cell" id="6"><img class="img_cell" src="" alt=""></td>
+                            <td class="cell" id="7"><img class="img_cell" src="" alt=""></td>
+                            <td class="cell" id="8"><img class="img_cell" src="" alt=""></td>
+                        </tr>
+                    </table>
+
+
+
+
+                    <br>
+                    <button id="startgame" class="btn btn-primary">Start new game</button>
                 </div>
-                <button id="startgame" class="btn btn-primary">Start new game</button>
             </div>
         </div>
+        <div id="endgame" class="d-none">
+            <p>hhhhhh</p>
+        </div>
     </div>
+    
+
 
 
     <!-- Optional JavaScript -->
