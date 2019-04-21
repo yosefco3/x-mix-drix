@@ -1,0 +1,39 @@
+body {
+    font-family: 'Courgette', cursive; 
+    user-select: none;
+    
+}
+
+#names form {
+  margin: 0 auto;   
+}
+
+form input {
+    text-align: center;
+}
+
+table{
+    margin: 0 auto;
+}
+
+
+td {
+    border : 2px solid #000;
+    height: 120px;
+    width:120px;
+    text-align: center;
+    /* vertical-align: middle; */
+    font-size: 70px;
+    cursor: pointer;
+}
+
+#buttons {
+    margin: 0 auto;
+}
+
+.cell> img {
+    height:75px;
+    width:65px;
+    margin-bottom: 30px;
+    
+}
