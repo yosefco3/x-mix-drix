@@ -73,8 +73,10 @@ let make_board_from_moves = function (moves) {
 let make_board_with_img = function (board) {
     for (let i = 0; i < board.length; i++) {
         if (board[i] === players[0]) {
+            cell_imges[i].style.display="inline";
             cell_imges[i].src = x_img;
         } else if (board[i] === players[1]) {
+            cell_imges[i].style.display="inline";
             cell_imges[i].src = y_img;
         } else {
             cell_imges[i].src = "";
