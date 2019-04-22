@@ -4,6 +4,7 @@ let gameWon = "";
 let players = ["x", "o"];
 let whoseTurn;
 let pick = "";
+let gamewon = null;
 
 const x_img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSGy5SQlF7U7m1rHcZd-ovak8XYCFrSH_1mRqTfCguX477S9Is"
 const y_img = "https://www.charbase.com/images/glyph/128309"
@@ -80,6 +81,7 @@ let make_board_with_img = function (board) {
             cell_imges[i].src = y_img;
         } else {
             cell_imges[i].src = "";
+            cell_imges[i].style.display="none";
         }
     }
 }
@@ -101,9 +103,8 @@ let checkWin = function (board, player) {
     let a = [];
     board.forEach((element, index) => {
         if (element === player) a.push(index);
-
     });
-    let gamewon = null;
+    
     // checks if winner comb is in a.
     // if is , returns the player and the winning comb.
     for (let i = 0; i < winComb.length; i++) {
@@ -117,6 +118,7 @@ let checkWin = function (board, player) {
     }
 }
 
+// checks if the win is a pick. if it is , stores it.
 let check_if_pick = function (moves) {
     pick = JSON.parse(localStorage.getItem('pick'));
     if (!pick || moves.length < pick.length) {
@@ -124,21 +126,30 @@ let check_if_pick = function (moves) {
     }
 }
 
+// loads the pic from the storage.
 load_pick.addEventListener('click', (e) => {
     let pick = JSON.parse(localStorage.getItem('pick'));
     if (!pick) {
         alert('There is no pick yet!');
     } else {
+        // cleaning
+        cells.forEach(cell => {
+            cell.style.removeProperty('background-color');
+        });
+        cell_imges.forEach(img =>{
+            img.src="";
+            img.style.display="none";
+        });
+        // 
         moves = pick;
         board = make_board_from_moves(moves);
+        player=moves[moves.length-1].player
+        players=[moves[moves.length-1].player,moves[moves.length-2].player]
         make_board_with_img(board);
-        gameWon = checkWin(board, players[whoseTurn]);
+        gameWon = checkWin(board, player);
         gameOver(gameWon);
         turn_declare.textContent = "The pick:";
-        save_game.removeEventListener('click', save);
-
     }
-
 
 })
 
@@ -196,8 +207,6 @@ let turnClick = function (e) {
         } else {
             gameOver(gameWon);
         }
-
-
         // console.log(moves);
         // console.log(board);
     }
@@ -208,10 +217,13 @@ startGame = function () {
     // initialization
     cell_imges.forEach(img => {
         img.src = "";
+        img.style.display="none";
     });
+    gamewon = null;
     moves = [];
     board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     whoseTurn = 0;
+    save_game.addEventListener('click', save);
     turn_declare.textContent = "Turn of " + players[0];
 
 
@@ -222,7 +234,6 @@ startGame = function () {
 
 }
 
-start.addEventListener('click', startGame);
 
 reverse_move.addEventListener('click', (e) => {
     if (!gameWon && moves.length > 0) {
@@ -242,7 +253,7 @@ reverse_move.addEventListener('click', (e) => {
 
 
 let save = function (e) {
-    if (moves.length > 1) {
+    if (moves.length > 1 && !gameWon) {
         saved_game = {
             moves: moves,
             players: players,
@@ -256,12 +267,13 @@ let save = function (e) {
     }
 }
 
-save_game.addEventListener('click', save);
 
 load_game.addEventListener('click', (e) => {
     let saved_game = JSON.parse(localStorage.getItem('saved_game'));
+    gamewon = null;
+    save_game.addEventListener('click', save);
     if (saved_game) {
-        console.log(saved_game)
+        // console.log(saved_game)
         whoseTurn = saved_game.whoseTurn;
         moves = saved_game.moves;
         players = saved_game.players;
@@ -279,4 +291,6 @@ load_game.addEventListener('click', (e) => {
 
 
 
+save_game.addEventListener('click', save);
+start.addEventListener('click', startGame);
 startGame();
