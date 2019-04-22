@@ -30,6 +30,9 @@ const names=document.querySelector('#names');
 const game=document.querySelector('#game');
 const turn_declare=document.querySelector('#turn_declare');
 const reverse_move=document.querySelector('#reverse');
+const save_game=document.querySelector('#save');
+const load_game=document.querySelector('#load');
+
 
 
 
@@ -205,4 +208,37 @@ reverse_move.addEventListener('click',(e)=>
     });
 }
 })
+
+save_game.addEventListener('click',(e)=>{
+    if (moves.length>1){
+    saved_game={
+        moves:moves,
+        players:players,
+        whoseTurn:whoseTurn,
+    }
+    localStorage.setItem('saved_game', JSON.stringify(saved_game));
+
+    alert("saved");
+    } else {
+        alert("You can save only from 2 moves!")
+    }
+});
+
+load_game.addEventListener('click',(e)=>{
+    let saved_game = JSON.parse(localStorage.getItem('saved_game'));
+    console.log(saved_game)
+    whoseTurn=saved_game.whoseTurn;
+    moves=saved_game.moves;
+    players=saved_game.players;
+    board=make_board_from_moves(moves);
+    make_board_with_img(board);
+    cells.forEach(cell => {
+        cell.style.removeProperty('background-color');
+        cell.addEventListener('click',turnClick);
+    });
+    turn_declare.textContent="Turn of "+moves[moves.length-2].player;
+})
+
+
+
 startGame();
