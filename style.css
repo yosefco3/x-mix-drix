@@ -22,7 +22,7 @@ td {
     height: 120px;
     width:120px;
     text-align: center;
-    /* vertical-align: middle; */
+    vertical-align: middle; 
     font-size: 70px;
     cursor: pointer;
 }
@@ -38,3 +38,23 @@ td {
     display: none;
     
 }
+
+@media screen and (max-width: 600px) {
+    
+td  {
+    border : 2px solid #000;
+    height: 100px;
+    width:100px;
+    text-align: center;
+    vertical-align: middle; 
+    font-size: 70px;
+    cursor: pointer;
+    }
+    .cell> img {
+        height:50px;
+        width:50px;
+        margin-bottom: 30px;
+        display: none;
+        
+    }
+  }
