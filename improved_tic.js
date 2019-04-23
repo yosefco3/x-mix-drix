@@ -172,7 +172,8 @@ let gameOver = function (gameWon) {
     });
     turn_declare.textContent = gameWon.player + " won!"
     check_if_pick(moves);
-    save_game.removeEventListener('click', save);
+    save_game.removeEventListener('click', saveGame);
+    reverse_move.removeEventListener('click',reverseMove);
 }
 
 let checkDraw = function (board) {
@@ -180,7 +181,8 @@ let checkDraw = function (board) {
         return;
     } else {
         turn_declare.textContent = "It's a DRAW !"
-        save_game.removeEventListener('click', save);
+        save_game.removeEventListener('click', saveGame);
+        reverse_move.removeEventListener('click',reverseMove);
         cells.forEach(cell => {
             cell.removeEventListener('click', turnClick, false)
         });
@@ -230,7 +232,8 @@ startGame = function () {
     moves = [];
     board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     whoseTurn = 0;
-    save_game.addEventListener('click', save);
+    save_game.addEventListener('click', saveGame);
+    reverse_move.addEventListener('click', reverseMove);
     turn_declare.textContent = "Turn of " + players[0];
 
 
@@ -279,7 +282,8 @@ let saveGame = function (e) {
 let loadGame=function  (e) {
     let saved_game = JSON.parse(localStorage.getItem('saved_game'));
     gameWon = null;
-    save_game.addEventListener('click', save);
+    reverse_move.addEventListener('click', reverseMove);    
+    save_game.addEventListener('click', saveGame);
     if (saved_game) {
         // console.log(saved_game)
         whoseTurn = saved_game.whoseTurn;
