@@ -6,8 +6,8 @@ let whoseTurn;
 let pick = "";
 let gamewon = null;
 
-const x_img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSGy5SQlF7U7m1rHcZd-ovak8XYCFrSH_1mRqTfCguX477S9Is"
-const y_img = "https://www.charbase.com/images/glyph/128309"
+const x_img = "x.png"
+const y_img = "o.png"
 
 const winComb = [
     [0, 1, 2],
@@ -99,7 +99,7 @@ let arrayContainsArray = function (needle, haystack) {
 // checks if there is a winner , returns the winner 
 // and the combination
 let checkWin = function (board, player) {
-    // makes array "a" of all player moves. 
+    // from the array "board" makes array "a" of all player moves. 
     let a = [];
     board.forEach((element, index) => {
         if (element === player) a.push(index);
@@ -120,14 +120,21 @@ let checkWin = function (board, player) {
 
 // checks if the win is a pick. if it is , stores it.
 let check_if_pick = function (moves) {
+    // if there is allready pick in the local st' 
+    // we load it , and compare to the current win:
     pick = JSON.parse(localStorage.getItem('pick'));
-    if (!pick || moves.length < pick.length) {
-        localStorage.setItem('pick', JSON.stringify(moves));
+    if (!pick || moves.length < pick.moves.length) {
+        const new_pick ={
+            moves:moves,
+            players:players,
+        }
+        localStorage.setItem('pick', JSON.stringify(new_pick));
     }
 }
 
 // loads the pic from the storage.
-load_pick.addEventListener('click', (e) => {
+
+let loadPick =function (e) {
     let pick = JSON.parse(localStorage.getItem('pick'));
     if (!pick) {
         alert('There is no pick yet!');
@@ -141,17 +148,17 @@ load_pick.addEventListener('click', (e) => {
             img.style.display="none";
         });
         // 
-        moves = pick;
+        moves = pick.moves
         board = make_board_from_moves(moves);
         player=moves[moves.length-1].player
-        players=[moves[moves.length-1].player,moves[moves.length-2].player]
+        players=pick.players
         make_board_with_img(board);
         gameWon = checkWin(board, player);
         gameOver(gameWon);
         turn_declare.textContent = "The pick:";
     }
+}
 
-})
 
 //    if there is a winner , makes green backgrond to the comb ,
 //    removes the event listener from the cells.
@@ -219,7 +226,7 @@ startGame = function () {
         img.src = "";
         img.style.display="none";
     });
-    gamewon = null;
+    gameWon = null;
     moves = [];
     board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     whoseTurn = 0;
@@ -235,7 +242,7 @@ startGame = function () {
 }
 
 
-reverse_move.addEventListener('click', (e) => {
+let reverseMove=function (e) {
     if (!gameWon && moves.length > 0) {
         moves.pop();
         // console.log(moves);
@@ -249,10 +256,12 @@ reverse_move.addEventListener('click', (e) => {
             cell.addEventListener('click', turnClick);
         });
     }
-})
+}
 
 
-let save = function (e) {
+
+
+let saveGame = function (e) {
     if (moves.length > 1 && !gameWon) {
         saved_game = {
             moves: moves,
@@ -262,15 +271,14 @@ let save = function (e) {
         localStorage.setItem('saved_game', JSON.stringify(saved_game));
 
         alert("saved");
-    } else {
+    } else if (moves.length<2){
         alert("You can save only from 2 moves!")
     }
 }
 
-
-load_game.addEventListener('click', (e) => {
+let loadGame=function  (e) {
     let saved_game = JSON.parse(localStorage.getItem('saved_game'));
-    gamewon = null;
+    gameWon = null;
     save_game.addEventListener('click', save);
     if (saved_game) {
         // console.log(saved_game)
@@ -287,10 +295,13 @@ load_game.addEventListener('click', (e) => {
     } else {
         alert("No game saved!")
     }
-})
+}
 
 
 
-save_game.addEventListener('click', save);
+reverse_move.addEventListener('click', reverseMove);
+load_game.addEventListener('click',loadGame);
+load_pick.addEventListener('click', loadPick);
+save_game.addEventListener('click', saveGame);
 start.addEventListener('click', startGame);
 startGame();
